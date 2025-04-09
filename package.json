@@ -1,15 +1,15 @@
 {
-  "name": "gather-spotify-status-cli",
+  "name": "gather-spotify",
   "version": "1.0.0",
   "description": "a CLI wrapper for a Gather.town mod which sets your status to your currently playing track on spotify",
   "main": "dist/index.js",
   "scripts": {
     "start": "tsc -b && node dist/index.js",
-    "get-token": "source .env && spotify-access-token --clientId $SPOTIFY_CLIENT_ID --clientSecret $SPOTIFY_CLIENT_SECRET --scope user-read-playback-state,user-read-currently-playing"
+    "get-token": "spotify-access-token --clientId $SPOTIFY_CLIENT_ID --clientSecret $SPOTIFY_CLIENT_SECRET --scope user-read-playback-state,user-read-currently-playing"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/therebelrobot/gather-spotify-status-cli.git"
+    "url": "git+https://github.com/therebelrobot/gather-spotify.git"
   },
   "contributors": [
     "npfoss",
@@ -17,15 +17,15 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/therebelrobot/gather-spotify-status-cli/issues"
+    "url": "https://github.com/therebelrobot/gather-spotify/issues"
   },
-  "homepage": "https://github.com/therebelrobot/gather-spotify-status-cli#readme",
+  "homepage": "https://github.com/therebelrobot/gather-spotify#readme",
   "dependencies": {
     "@gathertown/gather-game-client": "^38.0.1",
     "dotenv": "^16.4.7",
     "isomorphic-ws": "^4.0.1",
     "rc": "^1.2.8",
-    "spotify-oauth-cli": "^2.0.0",
+    "spotify-oauth-cli": "^2.0.1",
     "spotify-oauth-refresher": "^1.0.8",
     "ws": "^8.2.1"
   },
