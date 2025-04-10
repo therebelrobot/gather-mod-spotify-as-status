@@ -6,6 +6,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const rc = require('rc');
+const {default: chalk} = require('chalk-cjs');
 
 // Define the base directory of the CLI project.
 // Adjust this if your CLI file is not located in a subdirectory relative to your package.json.
@@ -31,14 +32,18 @@ const runInit = () => {
 
   if (fs.existsSync(CONFIG_PATH)) {
     console.log(`Configuration file already exists at ${CONFIG_PATH}`);
+    showWhatToDoNext();
+
     process.exit(0);
   }
 
   try {
     fs.writeFileSync(CONFIG_PATH, JSON.stringify(DEFAULT_CONFIG, null, 2), { mode: 0o600 });
-    console.log(`Basic configuration file created at ${CONFIG_PATH}.\nPlease edit it with your credentials.`);
+    console.log(`Basic configuration file created at ${CONFIG_PATH}.\n`);
+    showWhatToDoNext();
+
   } catch (err) {
-    console.error('Failed to create configuration file:', err);
+    console.error(chalk.red('Failed to create configuration file:'), err);
     process.exit(1);
   }
   process.exit(0);
@@ -145,6 +150,31 @@ if (command === 'token') {
     outputData += text;
     process.stdout.write(text); // Also output to the console.
   });
+}
+
+function showWhatToDoNext () {
+  const whatToDoNext = `
+
+  ${chalk.green('What should you do next?')}
+  ---
+  Get your ${chalk.blue('Gather.town api token')} here: https://gather.town/apiKeys
+  Get your ${chalk.blue('Gather.town space ID')} here: https://app.gather.town
+    (see https://gathertown.notion.site/Gather-Websocket-API-bf2d5d4526db412590c3579c36141063
+       for more info.)
+  Create a ${chalk.blue('new developer application')} in Spotify (https://developer.spotify.com/dashboard/create) 
+    to get your ${chalk.blue('client ID')} and ${chalk.blue('secret')} here: https://developer.spotify.com/dashboard/applications
+      Make sure to set "http://127.0.0.1:4815/callback" as a redirect URI.
+      Make sure you select "Web Playback SDK" when asked "Which API/SDKs are you planning to use?"
+
+  After adding those details to your $HOME/.gatherspotifyrc file, run:
+  ${chalk.yellow('$ gather-spotify token')}
+  to get your Spotify access and refresh tokens.
+
+  Then run:
+  ${chalk.yellow('$ gather-spotify')}
+  to start the listener server.
+  `;
+  console.log(whatToDoNext);
 }
 
 // When the child process exits, perform post-processing if needed.
